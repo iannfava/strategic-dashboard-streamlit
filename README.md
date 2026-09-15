@@ -26,7 +26,50 @@ An end-to-end Business Intelligence dashboard built with Python, Streamlit, Plot
 - Executive Reporting
 
 ## Dashboard Preview
-(image)
+
+### Home
+
+![Home page](images/home.png)
+
+Landing page with a quick guide on how to navigate the dashboard's three main views.
+
+### Company View
+
+![Orders by Day and Traffic Order Share](images/company_view_2.png)
+
+Management Vision: daily order volume over time, traffic share distribution, and order volume broken down by city and traffic condition.
+
+![Order by Week and Order Share by Week](images/company_view_3.png)
+
+Tatical Vision: total orders per week and average orders per delivery driver per week.
+
+![Country Maps](images/company_view_4.png)
+
+Geographical Vision: geographical center of each city, segmented by traffic condition, displayed on an interactive map.
+
+![Marketplace Client Vision table](images/company_view_1.png)
+
+Raw data table showing individual delivery records, including driver ID, age, rating, and restaurant/delivery coordinates.
+
+### Delivery Driver View
+
+![Delivery Person overall metrics and ratings](images/delivers_view_1.png)
+
+Overall metrics (oldest/youngest driver, best/worst vehicle condition) plus average rating per delivery driver, traffic condition, and weather condition.
+
+![Delivery speed tables](images/delivers_view_2.png)
+
+Top 10 fastest and top 10 slowest delivery drivers by city.
+
+### Restaurant View
+
+![Restaurant overall metrics](images/restaurants_view_1.png)
+
+Overall metrics (unique delivery drivers, average distance, average delivery time, and standard deviation with/without festivals) plus average delivery time by city and traffic condition.
+
+![Time Distribution charts](images/restaurants_view_2.png)
+
+Distribution of delivery time by city type, and standard deviation of delivery time by city and traffic condition.
 
 ## Project Structure
 
