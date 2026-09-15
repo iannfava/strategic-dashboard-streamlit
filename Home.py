@@ -7,7 +7,7 @@ st.set_page_config(
 )
 
 #image_path = 'C:/Users/Ian/OneDrive/Área de Trabalho/PYTHON_PROJECT_DA/images/'
-image = Image.open( 'cury.png' )
+image = Image.open('images/cury.png')
 st.sidebar.image( image, width=120 )
 
 st.sidebar.markdown('### Cury company')
@@ -38,11 +38,13 @@ st.markdown(
     
         -Weekly growth metrics.
         
-    ### Ask for Help
+   ### Contact
     
-    -discord:
+    - **LinkedIn:** [linkedin.com/in/iannfava](https://linkedin.com/in/iannfava)
     
-    @iannfava
+    - **GitHub:** [github.com/iannfava](https://github.com/iannfava)
+    
+    - **E-mail:** iannfava@gmail.com
     
 """ )        
 

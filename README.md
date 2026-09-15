@@ -1,5 +1,7 @@
 # Delivery Marketplace Growth Dashboard
 
+![Cury Logo](images/cury.png)
+
 An end-to-end Business Intelligence dashboard built with Python, Streamlit, Plotly, Pandas and Folium to monitor strategic KPIs for a food delivery marketplace.
 
 ## Technologies
@@ -27,20 +29,20 @@ An end-to-end Business Intelligence dashboard built with Python, Streamlit, Plot
 (image)
 
 ## Project Structure
-project/
 
-├── dataset/
-
-├── dashboard/
-
-├── notebooks/
-
-├── README.md
-
+```
+PYTHON_PROJECT_DA/
+├── dataset/          # raw and processed data
+├── codes_v1/         # auxiliary Python scripts
+├── dashboards/        # dashboard assets and views
+├── images/            # images used in the project and README (includes cury.png)
+├── pages/              # Streamlit multipage app pages
+├── Home.py             # main Streamlit entry point
 ├── requirements.txt
+└── README.md
+```
 
-└── app.py
-
+> Note: `.ipynb_checkpoints/` is a local Jupyter cache folder and is excluded from version control via `.gitignore`.
 
 # 1. Business Problem
 
@@ -169,14 +171,3 @@ From the Company View, the analysis indicates a consistent increase in order vol
 - Simplify the dashboard by reducing the number of displayed metrics.
 - Add new filtering options.
 - Expand the dashboard with additional business perspectives.
-
-
-
-
-
-
-
-
-
-
-

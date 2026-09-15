@@ -163,8 +163,8 @@ df1 = clean_code( df )
 
 st.header('Marketplace - Client Vision')
 
-#image_path = 'images/cury.png'
-image=Image.open( 'cury.png' )
+#image = Image.open('images/cury.png')
+image = Image.open('images/cury.png')
 st.sidebar.image( image, width=120 )
     
 st.sidebar.markdown('### Cury company')
@@ -204,7 +204,7 @@ st.dataframe( df1 )
 #STREAMLIT LAYOUT
 #=======================================
 
-tab1, tab2, tab3 = st.tabs ( ['Management Vision', 'Tatical Vision', 'Geographical Vision'] )
+tab1, tab2, tab3 = st.tabs ( ['Manegement Vision', 'Tatical Vision', 'Geographical Vision'] )
 
 with tab1:
     with st.container():
