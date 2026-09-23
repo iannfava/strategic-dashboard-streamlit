@@ -2,215 +2,177 @@
 
 ![Cury Logo](images/cury.png)
 
-An end-to-end Business Intelligence dashboard built with Python, Streamlit, Plotly, Pandas and Folium to monitor strategic KPIs for a food delivery marketplace.
+Dashboard de Business Intelligence de ponta a ponta, construído com Python, Streamlit, Plotly, Pandas e Folium para monitorar KPIs estratégicos de um marketplace de delivery de comida.
 
-## Technologies
+---
 
-- Python
-- Pandas
-- Plotly
-- Streamlit
-- Folium
-- Git
-- GitHub
+## 1. Problema
 
-## Skills Demonstrated
+A Cury Company é uma empresa de tecnologia que desenvolveu uma plataforma conectando restaurantes, entregadores e clientes. Os clientes fazem pedidos em restaurantes cadastrados e recebem a entrega em casa por entregadores cadastrados.
 
-- Exploratory Data Analysis (EDA)
-- Data Cleaning
-- Data Visualization
-- KPI Design
-- Business Intelligence
-- Geospatial Analysis
-- Dashboard Development
-- Executive Reporting
+A plataforma gera uma grande quantidade de dados operacionais — informações de entrega, tipos de pedido, condições climáticas, avaliações de entregadores, entre outros — mas o CEO não tem uma visão centralizada dos principais indicadores de desempenho (KPIs) da empresa.
 
-## Dashboard Preview
+**Objetivo:** consolidar os KPIs estratégicos da empresa em um único dashboard interativo, permitindo que o CEO monitore a performance do negócio e apoie decisões orientadas a dados, sob três perspectivas de stakeholders:
+
+| Visão | Responde |
+|---|---|
+| **Empresa** | Pedidos por dia/semana, distribuição de tráfego, pedidos por cidade, concentração geográfica dos pedidos |
+| **Entregador** | Entregador mais novo/mais velho, condição do veículo, avaliações por trânsito/clima, entregadores mais rápidos/lentos por cidade |
+| **Restaurante** | Entregadores únicos, distância/tempo médio de entrega por cidade, tipo de pedido e trânsito, tempo de entrega durante festivais |
+
+---
+
+## 2. Arquitetura
+
+```mermaid
+flowchart LR
+    subgraph Fonte["📦 Fonte de Dados"]
+        A["Dataset do Kaggle<br/>Operações de delivery<br/>11/fev – 06/abr de 2022"]
+    end
+
+    subgraph ETL["🔄 Limpeza de Dados — Pandas"]
+        B["Conversão de tipos,<br/>tratamento de NaN"]
+        C["Engenharia de atributos<br/>(distância, semana, etc.)"]
+    end
+
+    subgraph Core["🐍 codes_v1 — lógica reutilizável"]
+        D["visao_empresa.py"]
+        E["visao_entregadores.py"]
+        F["visao_restaurantes.py"]
+    end
+
+    subgraph App["📊 App Multipage — Streamlit"]
+        G["Home.py"]
+        H["1_company_view.py"]
+        I["2_delivers_view.py"]
+        J["3_restaurants_view.py"]
+    end
+
+    subgraph Viz["📈 Visualização"]
+        K["Gráficos<br/>Plotly"]
+        L["Mapas<br/>Folium"]
+    end
+
+    subgraph Deploy["☁️ Deploy"]
+        M["Streamlit<br/>Community Cloud"]
+    end
+
+    A --> B --> C --> D & E & F
+    D --> H
+    E --> I
+    F --> J
+    G --> H & I & J
+    H & I & J --> K & L
+    H & I & J --> M
+```
+
+**Premissas:**
+- Dados coletados entre **11 de fevereiro de 2022** e **6 de abril de 2022**.
+- Modelo de negócio assumido: **Marketplace**.
+- A análise cobre três perspectivas de negócio: Empresa, Restaurantes, Entregadores.
+
+---
+
+## 3. Stack
+
+| Camada | Ferramenta |
+|---|---|
+| Linguagem | Python |
+| Manipulação de dados | Pandas |
+| Gráficos | Plotly |
+| Mapas | Folium |
+| App / Interface | Streamlit (multipage) |
+| Versionamento | Git, GitHub |
+| Deploy | Streamlit Community Cloud |
+
+**Skills demonstradas:** Análise Exploratória de Dados (EDA), Limpeza de Dados, Visualização de Dados, Design de KPIs, Business Intelligence, Análise Geoespacial, Desenvolvimento de Dashboard, Relatórios Executivos.
+
+---
+
+## 4. Implementação
 
 ### Home
 
 ![Home page](images/home.png)
 
-Landing page with a quick guide on how to navigate the dashboard's three main views.
+Página inicial com um guia rápido de como navegar pelas três visões principais do dashboard.
 
-### Company View
+### Visão Empresa
 
 ![Orders by Day and Traffic Order Share](images/company_view_2.png)
 
-Management Vision: daily order volume over time, traffic share distribution, and order volume broken down by city and traffic condition.
+Visão Gerencial: volume diário de pedidos ao longo do tempo, distribuição de participação por tráfego e volume de pedidos por cidade e condição de tráfego.
 
 ![Order by Week and Order Share by Week](images/company_view_3.png)
 
-Tatical Vision: total orders per week and average orders per delivery driver per week.
+Visão Tática: total de pedidos por semana e média de pedidos por entregador por semana.
 
 ![Country Maps](images/company_view_4.png)
 
-Geographical Vision: geographical center of each city, segmented by traffic condition, displayed on an interactive map.
+Visão Geográfica: centro geográfico de cada cidade, segmentado por condição de tráfego, exibido em um mapa interativo.
 
 ![Marketplace Client Vision table](images/company_view_1.png)
 
-Raw data table showing individual delivery records, including driver ID, age, rating, and restaurant/delivery coordinates.
+Tabela de dados brutos mostrando registros individuais de entrega, incluindo ID do entregador, idade, avaliação e coordenadas de restaurante/entrega.
 
-### Delivery Driver View
+### Visão Entregador
 
 ![Delivery Person overall metrics and ratings](images/delivers_view_1.png)
 
-Overall metrics (oldest/youngest driver, best/worst vehicle condition) plus average rating per delivery driver, traffic condition, and weather condition.
+Métricas gerais (entregador mais velho/mais novo, melhor/pior condição de veículo) além da avaliação média por entregador, condição de tráfego e condição climática.
 
 ![Delivery speed tables](images/delivers_view_2.png)
 
-Top 10 fastest and top 10 slowest delivery drivers by city.
+Top 10 entregadores mais rápidos e top 10 mais lentos por cidade.
 
-### Restaurant View
+### Visão Restaurante
 
 ![Restaurant overall metrics](images/restaurants_view_1.png)
 
-Overall metrics (unique delivery drivers, average distance, average delivery time, and standard deviation with/without festivals) plus average delivery time by city and traffic condition.
+Métricas gerais (entregadores únicos, distância média, tempo médio de entrega e desvio padrão com/sem festivais) além do tempo médio de entrega por cidade e condição de tráfego.
 
 ![Time Distribution charts](images/restaurants_view_2.png)
 
-Distribution of delivery time by city type, and standard deviation of delivery time by city and traffic condition.
+Distribuição do tempo de entrega por tipo de cidade e desvio padrão do tempo de entrega por cidade e condição de tráfego.
 
-## Project Structure
+### Estrutura do Projeto
 
 ```
 PYTHON_PROJECT_DA/
-├── dataset/          # raw and processed data
-├── codes_v1/         # auxiliary Python scripts
-├── dashboards/        # dashboard assets and views
-├── images/            # images used in the project and README (includes cury.png)
-├── pages/              # Streamlit multipage app pages
-├── Home.py             # main Streamlit entry point
+├── dataset/          # dados brutos e tratados
+├── codes_v1/         # scripts Python auxiliares
+├── dashboards/        # assets e visões do dashboard
+├── images/            # imagens usadas no projeto e no README (inclui cury.png)
+├── pages/              # páginas do app multipage do Streamlit
+├── Home.py             # ponto de entrada principal do Streamlit
 ├── requirements.txt
 └── README.md
 ```
 
-> Note: `.ipynb_checkpoints/` is a local Jupyter cache folder and is excluded from version control via `.gitignore`.
+> Nota: `.ipynb_checkpoints/` é uma pasta de cache local do Jupyter e é excluída do versionamento via `.gitignore`.
 
-# 1. Business Problem
+### Dashboard ao Vivo
 
-Cury Company is a technology company that has developed a platform that connects restaurants, delivery drivers, and customers.
+Hospedado na nuvem, acessível de qualquer dispositivo conectado à internet:
 
-Through the platform, customers can order meals from registered restaurants and have them delivered to their homes by registered delivery drivers.
-
-As a platform, Cury Company generates a large amount of operational data, including delivery information, order types, weather conditions, driver ratings, and more. Although the business has experienced significant growth, the CEO lacks a centralized view of the company's key performance indicators (KPIs).
-
-You have been hired as a Data Scientist to develop data-driven solutions for the business. Before building predictive models, however, the immediate need is to organize the company's strategic KPIs into a single dashboard, enabling the CEO to monitor business performance and support data-driven decision-making.
-
-Cury Company operates as a marketplace connecting three primary stakeholders:
-
-- Restaurants
-- Delivery drivers
-- Customers
-
-To monitor business growth, the CEO requested the following metrics.
-
-## Company View
-
-1. Number of orders per day.
-2. Number of orders per week.
-3. Distribution of orders by traffic conditions.
-4. Comparasion of order volume by city and traffic conditions.
-5. Number of orders per delivery driver per week.
-6. Geographical center of each city by traffic conditions.
-
-## Delivery Driver View
-
-1. Youngest and oldest delivery driver.
-2. Best and worst vehicle condition.
-3. Average rating per delivery driver.
-4. Average rating and standard deviation by traffic conditions.
-5. Average rating and standard deviation by weather conditions.
-6. Top 10 fastest delivery drivers by city.
-7. Top 10 slowest delivery drivers by city.
-
-## Restaurant View
-
-1. Number of unique delivery drivers.
-2. Average distance between restaurants and delivery locations.
-3. Average delivery time and standard deviation by city.
-4. Average delivery time and standard deviation by city and order type.
-5. Average delivery time and standard deviation by city and traffic conditions.
-6. Average delivery time during festivals.
-
-The objective of this project is to build an interactive dashboard that presents these KPIs in a clear and intuitive way, enabling executive-level decision-making.
+🔗 https://curycompany1.streamlit.app/
 
 ---
 
-# 2. Assumptions
+## 5. Resultado
 
-- The analysis uses data collected between **February 11-2022, and April 6-2022**.
-- The assumed business model is **Marketplace**.
-- The analysis focuses on three business perspectives:
-  - Company
-  - Restaurants
-  - Delivery Drivers
+### Top 3 Insights de Negócio
 
----
+1. A demanda de pedidos segue uma forte sazonalidade diária, com aproximadamente **10% de variação** entre dias consecutivos.
+2. Cidades Semi-Urban não apresentam condições de **tráfego baixo (Low)**.
+3. A maior variabilidade no tempo de entrega ocorre em condições de clima **ensolarado (Sunny)**.
 
-# 3. Solution Strategy
+### Conclusão
 
-The dashboard was designed to provide insights across the 3 core business perspectives of the marketplace.
+Este projeto consolida com sucesso os KPIs estratégicos da empresa em um único dashboard, oferecendo aos executivos uma visão abrangente da performance do negócio. A partir da Visão Empresa, a análise indica um aumento consistente no volume de pedidos entre a Semana 06 e a Semana 13 de 2022.
 
-## Company Growth View
+### Próximos Passos
 
-- Orders per day
-- Percentage of orders by traffic conditions
-- Number of orders by city and order type
-- Orders per week
-- Number of orders by delivery type
-- Number of orders by traffic conditions and city type
-
-## Restaurant Growth View
-
-- Number of unique orders
-- Average delivery distance
-- Average delivery time during festivals and regular days
-- Standard deviation of delivery time during festivals and regular days
-- Average delivery time by city
-- Distribution of average delivery time by city
-- Average delivery time by order type
-
-## Delivery Driver Growth View
-
-- Youngest and oldest delivery driver
-- Best and worst vehicle condition ratings
-- Average rating per delivery driver
-- Average rating by traffic conditions
-- Average rating by weather conditions
-- Average delivery time of the fastest drivers
-- Average delivery time of the fastest drivers by city
-
----
-
-# 4. Top 3 Business Insights
-
-1. Order demand follows a strong daily seasonality, with approximately a **10% variation** between consecutive days.
-2. Semi-Urban cities do not experience **Low Traffic** conditions.
-3. The largest delivery time variability occurs during **Sunny** weather conditions.
-
----
-
-# 5. Final Product
-
-Cloud-hosted interactive dashboard accessible from any internet-connected device.
-
-## Live Dashboard
-
-https://curycompany1.streamlit.app/
-
----
-
-# 6. Conclusion
-
-This project successfully consolidates the company's strategic KPIs into a single dashboard, providing executives with a comprehensive view of business performance.
-
-From the Company View, the analysis indicates a consistent increase in order volume between Week 06 and Week 13 of 2022.
-
----
-
-# 7. Next Steps
-
-- Simplify the dashboard by reducing the number of displayed metrics.
-- Add new filtering options.
-- Expand the dashboard with additional business perspectives.
+- Simplificar o dashboard reduzindo o número de métricas exibidas.
+- Adicionar novas opções de filtro.
+- Expandir o dashboard com perspectivas de negócio adicionais.
