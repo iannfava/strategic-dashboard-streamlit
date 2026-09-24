@@ -10,7 +10,7 @@ Dashboard de Business Intelligence de ponta a ponta, construído com Python, Str
 
 A Cury Company é uma empresa de tecnologia que desenvolveu uma plataforma conectando restaurantes, entregadores e clientes. Os clientes fazem pedidos em restaurantes cadastrados e recebem a entrega em casa por entregadores cadastrados.
 
-A plataforma gera uma grande quantidade de dados operacionais — informações de entrega, tipos de pedido, condições climáticas, avaliações de entregadores, entre outros — mas o CEO não tem uma visão centralizada dos principais indicadores de desempenho (KPIs) da empresa.
+A plataforma gera uma grande quantidade de dados operacionais : informações de entrega, tipos de pedido, condições climáticas, avaliações de entregadores, entre outros, mas o CEO não tem uma visão centralizada dos principais indicadores de desempenho (KPIs) da empresa.
 
 **Objetivo:** consolidar os KPIs estratégicos da empresa em um único dashboard interativo, permitindo que o CEO monitore a performance do negócio e apoie decisões orientadas a dados, sob três perspectivas de stakeholders:
 
