@@ -12,7 +12,7 @@ from datetime import datetime
 import folium
 from streamlit_folium import folium_static
 
-st.set_page_config( page_title='Restaurants View', page_icon='🍽️', layout='wide')
+st.set_page_config( page_title='Visão Restaurantes', page_icon='🍽️', layout='wide')
 
 #---------------------------------
 #FUNCTIONS
@@ -28,7 +28,9 @@ def avg_std_time_on_traffic( df1 ):
 
     fig = px.sunburst(df_aux, path=['City', 'Road_traffic_density'], values='avg_time',
                       color='std_time', color_continuous_scale='RdBu',
-                      color_continuous_midpoint=np.average(df_aux['std_time'] ) )
+                      color_continuous_midpoint=np.average(df_aux['std_time'] ),
+                      labels={'avg_time': 'Tempo médio (min)', 'std_time': 'Desvio padrão (min)'},
+                      title='Tempo médio e desvio padrão por cidade e trânsito' )
 
     return fig
 
@@ -38,9 +40,10 @@ def avg_std_time_graph( df1 ):
     df_aux = df_aux.reset_index()
     
     fig = go.Figure()
-    fig.add_trace( go.Bar( name='Control', x=df_aux['City'], y=df_aux['avg_time'],
+    fig.add_trace( go.Bar( name='Tempo médio', x=df_aux['City'], y=df_aux['avg_time'],
               error_y=dict( type='data', array=df_aux['std_time'])))
-    fig.update_layout(barmode='group')
+    fig.update_layout( barmode='group', title='Tempo médio de entrega por cidade',
+                       xaxis_title='Cidade', yaxis_title='Tempo médio (min)' )
     
     return fig
 
@@ -54,7 +57,7 @@ def avg_std_time_delivery(df1, Festival, op):
             'avg_time': calculate average time 
             'std_time': calculate the standard deviation
           Output:
-            -df: Dataframe with 2 columns and 1 row.
+            -str: value rounded to 2 decimals followed by 'min', or '-' if there is no data.
     """        
             
     df_aux = ( df1.loc[:, ['Time_taken(min)', 'Festival']]
@@ -88,6 +91,7 @@ def distance( df1, fig ):
         
         avg_distance = df1.loc[:, ['City', 'distance']].groupby( 'City' ).mean().reset_index()
         fig = go.Figure( data=[ go.Pie(  labels=avg_distance['City'], values=avg_distance['distance'], pull=[0, 0.1, 0])])
+        fig.update_layout( title='Distância média por cidade (km)' )
 
         return fig 
         
@@ -157,25 +161,28 @@ df = pd.read_csv ('dataset/train.csv')
 
 df1 = clean_code( df )
 
+# Traduz para português os valores que aparecem na tela (cidades e trânsito)
+df1['City'] = df1['City'].replace( {'Metropolitian': 'Metropolitana', 'Urban': 'Urbana', 'Semi-Urban': 'Semiurbana'} )
+df1['Road_traffic_density'] = df1['Road_traffic_density'].replace( {'Low': 'Baixo', 'Medium': 'Médio', 'High': 'Alto', 'Jam': 'Congestionado'} )
+
 #=======================================
 #SIDEBAR
 #=======================================
 
 
-st.header('Marketplace - Restaurants View')
+st.header('Marketplace - Visão Restaurantes')
 
-#image = Image.open('images/cury.png')
 image = Image.open('images/cury.png')
 st.sidebar.image( image, width=120 )
     
-st.sidebar.markdown('### Cury company')
-st.sidebar.markdown ('## Fastest Delivery in Town')
+st.sidebar.markdown('### Cury Company')
+st.sidebar.markdown ('## A entrega mais rápida da cidade')
 st.sidebar.markdown ("""---""")
 
-st.sidebar.markdown('## Select a limit date')   
+st.sidebar.markdown('## Selecione uma data limite')   
     
 date_slider = st.sidebar.slider(
-    'by what date?',
+    'Até qual data?',
     value=datetime(2022, 4, 13 ),
     min_value=datetime(2022, 2, 11 ),
     max_value=datetime(2022, 4, 2 ),
@@ -186,12 +193,12 @@ st.sidebar.markdown ("""---""")
 
            
 traffic_options = st.sidebar.multiselect(
-    'Whats the traffic like?',
-    ['Low', 'Medium', 'High', 'Jam'],
-    default=['Low', 'Medium', 'High', 'Jam'] )
+    'Condições de trânsito',
+    ['Baixo', 'Médio', 'Alto', 'Congestionado'],
+    default=['Baixo', 'Médio', 'Alto', 'Congestionado'] )
 
 st.sidebar.markdown ("""---""")
-st.sidebar.markdown ( '### Powered by DS Community' )
+st.sidebar.markdown ( '### Desenvolvido com a Comunidade DS' )
 
 #Date filter
 rows_selected = df1['Order_Date'] < date_slider
@@ -206,32 +213,32 @@ df1 = df1.loc[rows_selected, :]
 #=======================================
 #STREAMLIT LAYOUT
 #=======================================
-tab1 = st.tabs( ['Management Vision'] )[0]
+tab1 = st.tabs( ['Visão Gerencial'] )[0]
 
 with tab1:
     with st.container():
-        st.title( 'Overall Metrics' )
+        st.title( 'Métricas Gerais' )
 
         col1, col2, col3, col4, col5, col6 = st.columns( 6 )
         with col1:
             delivery_unique = len( df1.loc[:, 'Delivery_person_ID'].unique() )
-            col1.metric( 'Unique delivery drivers', delivery_unique )
+            col1.metric( 'Entregadores únicos', delivery_unique )
 
         with col2:
             avg_distance = distance( df1, fig=False )
-            col2.metric( 'Avg. delivery distance', f'{avg_distance} km' )
+            col2.metric( 'Distância média', f'{avg_distance} km' )
 
         with col3:
-            col3.metric( 'Avg. time (festival)', avg_std_time_delivery( df1, 'Yes', 'avg_time' ) )
+            col3.metric( 'Tempo médio (festival)', avg_std_time_delivery( df1, 'Yes', 'avg_time' ) )
 
         with col4:
-            col4.metric( 'Std. time (festival)', avg_std_time_delivery( df1, 'Yes', 'std_time' ) )
+            col4.metric( 'Desvio padrão (festival)', avg_std_time_delivery( df1, 'Yes', 'std_time' ) )
 
         with col5:
-            col5.metric( 'Avg. time (no festival)', avg_std_time_delivery( df1, 'No', 'avg_time' ) )
+            col5.metric( 'Tempo médio (sem festival)', avg_std_time_delivery( df1, 'No', 'avg_time' ) )
 
         with col6:
-            col6.metric( 'Std. time (no festival)', avg_std_time_delivery( df1, 'No', 'std_time' ) )
+            col6.metric( 'Desvio padrão (sem festival)', avg_std_time_delivery( df1, 'No', 'std_time' ) )
        
     with st.container():
         st.markdown("""---""")
@@ -248,13 +255,15 @@ with tab1:
 
             df_aux.columns = ['avg_time', 'std_time']
             df_aux = df_aux.reset_index() 
+            df_aux = df_aux.round( 2 )
+            df_aux.columns = ['Cidade', 'Trânsito', 'Tempo médio (min)', 'Desvio padrão (min)']
 
             st.dataframe( df_aux )
   
         
     with st.container():
          st.markdown("""---""")
-         st.title( 'Time Distribuition' )
+         st.title( 'Distância e tempo por cidade' )
 
          col1, col2 = st.columns( 2 )
          with col1:
@@ -266,12 +275,3 @@ with tab1:
          with col2:
            fig = avg_std_time_on_traffic( df1 )
            st.plotly_chart( fig )
-       
-
-      
-
-
-
-
-
-
