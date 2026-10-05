@@ -1,4 +1,4 @@
-# Cury Company — Growth Dashboard
+# Cury Company : Growth Dashboard
 
 <img src="images/cury.png" alt="Logo Cury Company" width="220">
 
@@ -6,12 +6,11 @@ Dashboard em **Python + Streamlit** com os principais indicadores de um marketpl
 
 🔗 **Dashboard online:** https://curycompany1.streamlit.app
 
-**Em 30 segundos:**
+
 - Dados reais de **45.593 pedidos** de delivery na Índia (Kaggle), de 11/02/2022 a 06/04/2022.
 - Limpeza e agregações com **Pandas**, gráficos com **Plotly**, mapa com **Folium**, app com **Streamlit**.
 - Publicado no **Streamlit Community Cloud**, com atualização automática a cada push.
 
-> Projeto de portfólio desenvolvido no curso da **Comunidade DS**. A "Cury Company" é o caso de estudo proposto no curso.
 
 ---
 
