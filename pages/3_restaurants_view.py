@@ -63,9 +63,12 @@ def avg_std_time_delivery(df1, Festival, op):
     
     df_aux.columns = ['avg_time', 'std_time']
     df_aux = df_aux.reset_index()
-    df_aux = np.round (df_aux.loc[df_aux['Festival'] == Festival, op], 2 )
-    
-    return df_aux
+    df_aux = df_aux.loc[df_aux['Festival'] == Festival, op]
+
+    if df_aux.empty:
+        return '-'
+
+    return f'{np.round(df_aux.iloc[0], 2)} min'
             
 
 def distance( df1, fig ):
@@ -203,7 +206,7 @@ df1 = df1.loc[rows_selected, :]
 #=======================================
 #STREAMLIT LAYOUT
 #=======================================
-tab1, tab2, tab3 = st.tabs( ['Management Vision', '_', '_'] )
+tab1 = st.tabs( ['Management Vision'] )[0]
 
 with tab1:
     with st.container():
@@ -212,31 +215,23 @@ with tab1:
         col1, col2, col3, col4, col5, col6 = st.columns( 6 )
         with col1:
             delivery_unique = len( df1.loc[:, 'Delivery_person_ID'].unique() )
-            col1.metric( 'unique delivery person', delivery_unique )
-            
+            col1.metric( 'Unique delivery drivers', delivery_unique )
+
         with col2:
             avg_distance = distance( df1, fig=False )
-            col2.metric( 'Avg. delivery distance', avg_distance )
-            
+            col2.metric( 'Avg. delivery distance', f'{avg_distance} km' )
 
         with col3:
-            df_aux = avg_std_time_delivery( df1, 'Yes', 'avg_time' )
-            col3.metric( 'Avg. delivery time', df_aux )
-
+            col3.metric( 'Avg. time (festival)', avg_std_time_delivery( df1, 'Yes', 'avg_time' ) )
 
         with col4:
-            df_aux = avg_std_time_delivery( df1, 'Yes', 'std_time' )
-            col4.metric( 'Avg. delivery time', df_aux )
-           
-            
+            col4.metric( 'Std. time (festival)', avg_std_time_delivery( df1, 'Yes', 'std_time' ) )
+
         with col5:
-            df_aux = avg_std_time_delivery( df1, 'No', 'avg_time' )
-            col5.metric( 'STD delivery No festival', df_aux )
-          
-            
+            col5.metric( 'Avg. time (no festival)', avg_std_time_delivery( df1, 'No', 'avg_time' ) )
+
         with col6:
-            df_aux = avg_std_time_delivery( df1, 'No', 'avg_time' )
-            col6.metric( 'STD delivery on festival', df_aux )
+            col6.metric( 'Std. time (no festival)', avg_std_time_delivery( df1, 'No', 'std_time' ) )
        
     with st.container():
         st.markdown("""---""")

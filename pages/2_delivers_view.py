@@ -158,7 +158,7 @@ df1 = df1.loc[rows_selected, :]
 #=======================================
 #STREAMLIT LAYOUT
 #=======================================
-tab1, tab2, tab3 = st.tabs( ['Management Vision', '_', '_'] )
+tab1 = st.tabs( ['Management Vision'] )[0]
 
 with tab1:
     with st.container():
