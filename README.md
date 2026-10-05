@@ -1,6 +1,6 @@
 # Cury Company : Growth Dashboard
 
-<img src="images/cury.png" alt="Logo Cury Company" width="1200">
+<img src="images/cury.png" alt="Logo Cury Company" width="1000">
 
 Dashboard em **Python + Streamlit** com os principais indicadores de um marketplace de delivery de comida, sob três visões: **empresa, entregadores e restaurantes**.
 
