@@ -181,13 +181,16 @@ st.sidebar.markdown ("""---""")
 
 st.sidebar.markdown('## Selecione uma data limite')   
     
+data_min = df1['Order_Date'].min().to_pydatetime()
+data_max = df1['Order_Date'].max().to_pydatetime()
+
 date_slider = st.sidebar.slider(
     'Até qual data?',
-    value=datetime(2022, 4, 13 ),
-    min_value=datetime(2022, 2, 11 ),
-    max_value=datetime(2022, 4, 2 ),
-    format='DD-MM-YYYY' 
-)        
+    value=data_max,
+    min_value=data_min,
+    max_value=data_max,
+    format='DD-MM-YYYY'
+)
 
 st.sidebar.markdown ("""---""")
 
@@ -201,7 +204,7 @@ st.sidebar.markdown ("""---""")
 st.sidebar.markdown ( '### Desenvolvido com a Comunidade DS' )
 
 #Date filter
-rows_selected = df1['Order_Date'] < date_slider
+rows_selected = df1['Order_Date'] <= date_slider
 df1 = df1.loc[rows_selected, :]
 
 # Traffic filter
