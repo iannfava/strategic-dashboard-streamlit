@@ -72,9 +72,7 @@ flowchart TB
     Repo -->|"git push"| L
 ```
 
-**Como funciona:** o `Home.py` só monta o menu. Cada visão lê o CSV, limpa, traduz os valores, aplica os filtros e desenha os gráficos. Os valores são traduzidos logo depois da limpeza para os dados e as opções do filtro usarem os mesmos nomes.
-
-**Decisão herdada do curso:** cada visão repete a leitura e a limpeza. As páginas ficam independentes, mas o código se repete e, como o Streamlit roda o script de novo a cada clique, o CSV é reprocessado a cada interação.
+**Como funciona:** o `Home.py` só monta o menu. Cada visão lê o CSV, limpa, traduz os valores, aplica os filtros e desenha os gráficos. Os valores são traduzidos logo depois da limpeza para os dados e as opções do filtro usarem os mesmos nomes. Cada visão repete a leitura e a limpeza. As páginas ficam independentes, mas o código se repete e, como o Streamlit roda o script de novo a cada clique, o CSV é reprocessado a cada interação.
 
 ---
 
