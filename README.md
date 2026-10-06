@@ -103,15 +103,15 @@ Versões exatas no [`requirements.txt`](requirements.txt).
 
 ![Visão Gerencial](images/company_view_1.png)
 
-**Visão Empresa — Gerencial:** pedidos por dia, participação por trânsito e pedidos por cidade e trânsito.
+**Visão Empresa : Gerencial:** pedidos por dia, participação por trânsito e pedidos por cidade e trânsito.
 
 ![Visão Tática](images/company_view_2.png)
 
-**Visão Empresa — Tática:** pedidos por semana e pedidos por entregador por semana.
+**Visão Empresa : Tática:** pedidos por semana e pedidos por entregador por semana.
 
 ![Visão Geográfica](images/company_view_3.png)
 
-**Visão Empresa — Geográfica:** cada marcador é a **mediana** da localização das entregas por tipo de cidade e trânsito. Mediana, e não média, por ser menos sensível a coordenadas fora do padrão.
+**Visão Empresa : Geográfica:** cada marcador é a **mediana** da localização das entregas por tipo de cidade e trânsito. Mediana, e não média, por ser menos sensível a coordenadas fora do padrão.
 
 ![Métricas e avaliações](images/delivers_view_1.png)
 
